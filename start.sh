@@ -1,0 +1,1 @@
+mvn package && java -cp target/Cats-1.0-SNAPSHOT.jar com.pasotaku.cat.App

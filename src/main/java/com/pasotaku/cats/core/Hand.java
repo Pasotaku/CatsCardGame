@@ -1,4 +1,4 @@
-package com.pasotaku.cat.core;
+package com.pasotaku.cats.core;
 
 import java.util.ArrayList;
 import java.util.List;

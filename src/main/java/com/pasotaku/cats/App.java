@@ -1,4 +1,4 @@
-package com.pasotaku.cat;
+package com.pasotaku.cats;
 
 import java.io.File;
 import java.io.IOException;

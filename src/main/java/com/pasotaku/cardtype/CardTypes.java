@@ -7,7 +7,8 @@ public enum CardTypes {
 	NOPE("nope",false),
     CAT("cat-boom", false),
     FAVOR("favor-for-me",false),
-    FUTURE("future",false);
+    FUTURE("future",false),
+	DEFUSE("defuse",false);
 	
 	private String cardType;
 	private boolean normalCard;

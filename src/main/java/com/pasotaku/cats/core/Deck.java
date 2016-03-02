@@ -1,23 +1,61 @@
 package com.pasotaku.cats.core;
 
+import com.pasotaku.cardtype.CardTypes;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.pasotaku.cardtype.CardTypes;
+import java.util.Stack;
 
 public class Deck {
 
-    List<CardTypes> deck = new ArrayList<CardTypes>(50);
+    Stack<CardTypes> deck = new Stack<>();
 
-    public List<CardTypes> getDeck() {
-        return deck;
+    public Deck(List<CardTypes> deckOrder) {
+        for(CardTypes card: deckOrder) {
+            deck.push(card);
+        }
     }
 
-    public void setDeck(List<CardTypes> deck) {
-        this.deck = deck;
+    public CardTypes drawCard() {
+        if(!deck.isEmpty()) {
+            return deck.pop();
+        }
+        return null;
+    }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
+    }
+
+    public void placeCardOnTop(CardTypes card) {
+        if(card!= null){
+            deck.push(card);
+        }
+    }
+
+    public void placeCardAtLocation(CardTypes card, int location) {
+        if(card!= null) {
+            List<CardTypes> tempList = new ArrayList<>();
+            for (int i = 0; i < location; i++) {
+                tempList.add(deck.pop());
+            }
+            deck.push(card);
+            for (CardTypes cards : tempList) {
+                deck.push(cards);
+            }
+        }
+    }
+
+    public int size(){
+        return deck.size();
+    }
+
+    public CardTypes peek(){
+        return deck.peek();
     }
     
-    //TODO: Implement shuffle method
+    //TODO: Implement shuffle
+    //TODO: Add a way to intiialize the deck
     
     
 }

@@ -20,9 +20,7 @@ public class App
             System.out.println(nope);
             System.out.println(lines);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println("hehehehehehehe");
     }
 }

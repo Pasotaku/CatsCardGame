@@ -4,11 +4,11 @@ public enum CardTypes {
 	NORMAL_CARD("normal", true),
 	SKIP("skip",false),
 	ATTACK("attack",false),
-	NOPE("nope",false),
+	NOCATNO("no-cat-no",false),
     CAT("cat-boom", false),
     FAVOR("favor-for-me",false),
     FUTURE("future",false),
-	DEFUSE("defuse",false);
+	UNCAT("uncat",false);
 	
 	private String cardType;
 	private boolean normalCard;

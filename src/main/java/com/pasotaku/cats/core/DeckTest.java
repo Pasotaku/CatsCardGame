@@ -17,13 +17,13 @@ public class DeckTest {
     @Before
     public void setup() {
         List<CardTypes> tempDeck = new ArrayList<>();
-        tempDeck.add(CardTypes.DEFUSE);
+        tempDeck.add(CardTypes.UNCAT);
         tempDeck.add(CardTypes.NORMAL_CARD);
         tempDeck.add(CardTypes.NORMAL_CARD);
         tempDeck.add(CardTypes.FAVOR);
         tempDeck.add(CardTypes.NORMAL_CARD);
         tempDeck.add(CardTypes.NORMAL_CARD);
-        tempDeck.add(CardTypes.NOPE);
+        tempDeck.add(CardTypes.NOCATNO);
         tempDeck.add(CardTypes.CAT);
         deck = new Deck(tempDeck);
     }
@@ -38,7 +38,7 @@ public class DeckTest {
     public void retriveNope(){
         CardTypes card = deck.drawCard();
         card = deck.drawCard();
-        assertThat(card, equalTo(CardTypes.NOPE));
+        assertThat(card, equalTo(CardTypes.NOCATNO));
     }
 
     @Test

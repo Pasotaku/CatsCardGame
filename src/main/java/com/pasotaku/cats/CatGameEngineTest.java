@@ -23,9 +23,9 @@ public class CatGameEngineTest {
     @Before
     public void setup() {
         cardTypeList.add(CardTypes.CAT);
-        cardTypeList.add(CardTypes.DEFUSE);
-        cardTypeList.add(CardTypes.NOPE);
-        cardTypeList.add(CardTypes.NOPE);
+        cardTypeList.add(CardTypes.UNCAT);
+        cardTypeList.add(CardTypes.NOCATNO);
+        cardTypeList.add(CardTypes.NOCATNO);
     }
 
     @Test

@@ -15,7 +15,7 @@ public class App
         try {
             List lines = FileUtils.readLines(file, "UTF-8");
             CardTypes normalCard = CardTypes.NORMAL_CARD;
-            CardTypes nope = CardTypes.NOPE;
+            CardTypes nope = CardTypes.NOCATNO;
             System.out.println(normalCard);
             System.out.println(nope);
             System.out.println(lines);

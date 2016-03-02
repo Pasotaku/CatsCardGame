@@ -1,6 +1,8 @@
 package com.pasotaku.cats;
 
 import com.pasotaku.cardtype.CardTypes;
+import com.pasotaku.cats.core.CatEngine;
+import com.pasotaku.cats.core.Deck;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,10 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class CatGameEngineTest {
     private final static Logger logger = LoggerFactory.getLogger(CatGameEngineTest.class);
@@ -19,6 +21,8 @@ public class CatGameEngineTest {
     public static final String test = "hello";
 
     List<CardTypes> cardTypeList = new ArrayList<>();
+    Deck deck;
+    CatEngine catEngine = new CatEngine();
 
     @Before
     public void setup() {
@@ -26,20 +30,12 @@ public class CatGameEngineTest {
         cardTypeList.add(CardTypes.UNCAT);
         cardTypeList.add(CardTypes.NOCATNO);
         cardTypeList.add(CardTypes.NOCATNO);
+        deck = new Deck(cardTypeList);
     }
 
     @Test
-    public void nopeADefuseCard(){
-        logger.info("Testing adding a nope and a defuse card.");
-        //Player plays a cat
-        LinkedList<CardTypes> deck = new LinkedList<>();
-        LinkedList<CardTypes> playedCards = new LinkedList<>();
-        deck.add(CardTypes.CAT);
-        CardTypes currentCard = deck.pop();
-        if(!playedCards.isEmpty()){
-            //Check stuff here.
-        }
-        assertThat("hello", test.equalsIgnoreCase("hello"));
+    public void uncatANOCATNOCard() {
+        assertThat(CardTypes.UNCAT, equalTo(catEngine.victor(CardTypes.CAT, CardTypes.UNCAT)));
     }
 
     @Test

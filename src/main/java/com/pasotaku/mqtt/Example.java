@@ -14,15 +14,16 @@ public class Example {
         System.out.println(multiplayer.getState());
 
         // Gets the first message in the message queue.
-        System.out.println(multiplayer.recieve());
+        // To get the payload as a string, use the toString function.
+        System.out.println(multiplayer.recieve().toString());
 
         // Games are instanced by specific "rooms" (topics).
         // Message queue is cleared when switching rooms.
-        multiplayer.setRoom("game");
+        multiplayer.setRoom("game", true);
 
         // Recieve blocks until the next message if the queue is empty.
         // In this example case, use an external client or 'mosquitto_pub -t "user/game" -m "test"' on the server.
-        System.out.println(multiplayer.recieve());
+        System.out.println(multiplayer.recieve().toString());
 
         // Always disconnect cleanly.
         // Subscribing to the root "user/" or "#" topic will show if the client disconnected cleanly.

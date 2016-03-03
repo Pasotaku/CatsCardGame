@@ -14,7 +14,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class MessageBroker {
 
     public String state;
-    public String prevRoom;
+    public String prevTopic;
+    private String topic;
 
     private Callback callback;
     private MqttClient client;
@@ -23,8 +24,8 @@ public class MessageBroker {
 
     public MessageBroker(String user, boolean reset){
         // Default Values
-        this.prevRoom = "";
-        this.room = "";
+        this.prevTopic = "";
+        this.topic = "";
         // Set connection options
         String server = "tcp://rhitgaming.com:1883";
         MqttConnectOptions options = new MqttConnectOptions();
@@ -42,23 +43,28 @@ public class MessageBroker {
             this.client.setCallback(this.callback);
             this.client.connect(options);
             this.state = this.client.isConnected() ? "Connected" : "Initial connection failed";
-            this.setRoom("general");
+            this.setRoom("general", true);
             this.checkIn();
         } catch (MqttException e){
             e.printStackTrace();
         }
     }
 
-    public void setRoom(String room){
-        if (!this.prevRoom.equals("")) {
+    public void setRoom(String room, boolean joinAll){
+        String prefix = this.user;
+        if (joinAll) {
+            prefix = "+";
+        }
+        if (!this.prevTopic.equals("")) {
             try {
-                this.client.unsubscribe("+/" + this.prevRoom);
+                this.client.unsubscribe(this.prevTopic);
             } catch (MqttException e) {
                 e.printStackTrace();
             }
         }
         this.callback.clear();
-        this.prevRoom = this.room;
+        this.prevTopic = this.topic;
+        this.topic = prefix + "/" + room;
         this.room = room;
         try {
             this.client.subscribe("+/" + room, 2);
@@ -80,9 +86,16 @@ public class MessageBroker {
         }
     }
 
-    public String recieve(){
-        Message newMessage = this.callback.getMessage();
-        return newMessage.getTopic() + " : " + newMessage.getMqttMessage().toString();
+    public void send(String message, String topic, boolean persist) {
+        try {
+            this.client.publish(topic, message.getBytes("UTF-8"), 2, persist);
+        } catch (UnsupportedEncodingException | MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Message recieve(){
+        return this.callback.getMessage();
     }
 
     public void disconnect(){

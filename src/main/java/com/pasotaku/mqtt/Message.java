@@ -20,15 +20,11 @@ public class Message {
         return this.mqttMessage;
     }
 
-    public void setMqttMessage(MqttMessage mqttMessage) {
-        this.mqttMessage = mqttMessage;
-    }
-
     public String getTopic() {
         return this.topic;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public String toString() {
+        return this.mqttMessage.toString();
     }
 }

@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class CatGameEngineTest {
     private final static Logger logger = LoggerFactory.getLogger(CatGameEngineTest.class);
 
-    public static final String test = "hello";
+    public final String helloString = "hello";
 
     List<CardTypes> cardTypeList = new ArrayList<>();
     Deck deck;
@@ -40,7 +40,7 @@ public class CatGameEngineTest {
 
     @Test
     public void nopeADefuseCardAndNopeAgain(){
-        assertThat("hello", StringUtils.equalsIgnoreCase("hello", test));
+        assertThat("hello", StringUtils.equalsIgnoreCase("hello", helloString));
     }
 
 

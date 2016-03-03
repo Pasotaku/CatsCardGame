@@ -2,6 +2,7 @@ package com.pasotaku.cats.core;
 
 import com.pasotaku.cardtype.CardTypes;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -14,6 +15,13 @@ public class Deck {
         for(CardTypes card: deckOrder) {
             deck.push(card);
         }
+    }
+    public Stack<CardTypes> getDeck(){
+        return this.deck;
+    }
+
+    private void setDeck(Stack<CardTypes> deck){
+        this.deck = deck;
     }
 
     public CardTypes drawCard() {
@@ -53,6 +61,30 @@ public class Deck {
     public CardTypes peek(){
         return deck.peek();
     }
+
+    public void shuffle(){
+        List<CardTypes> unsortedCards = new ArrayList<>();
+        int numberOfCards = size();
+        List<Integer> index = new ArrayList<>();
+        while(!isEmpty()){
+            unsortedCards.add(drawCard());
+        }
+        Stack<CardTypes> updatedDeck = new Stack<>();
+
+
+        SecureRandom secureRandom = new SecureRandom();
+        for(int i = 0;i <numberOfCards;i++ ) {
+            int cardToGrab = secureRandom.nextInt(numberOfCards);
+            while(index.contains(cardToGrab)){
+                cardToGrab = secureRandom.nextInt(numberOfCards);
+            }
+            CardTypes card = unsortedCards.get(cardToGrab);
+            index.add(cardToGrab);
+            updatedDeck.push(card);
+        }
+        setDeck(updatedDeck);
+    }
+
     
     //TODO: Implement shuffle
     //TODO: Add a way to intiialize the deck

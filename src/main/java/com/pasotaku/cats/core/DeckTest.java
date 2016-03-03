@@ -6,10 +6,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
 
 public class DeckTest {
     Deck deck;
@@ -58,5 +60,15 @@ public class DeckTest {
         deck.drawCard();
         assertThat(deck.peek(), equalTo(CardTypes.CAT));
     }
+
+    @Test
+    public void shuffleDeck(){
+        Stack<CardTypes> originalDeck = (Stack<CardTypes>) deck.getDeck().clone();
+        deck.shuffle();
+        Stack<CardTypes> shuffleDeck = deck.getDeck();
+        assertFalse("original deck isn't the same as the shuffled deck",originalDeck.equals(shuffleDeck) );
+
+    }
+
 
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
+
     List<CardTypes> hand = new ArrayList<CardTypes>();
 
     public List<CardTypes> getHand() {

@@ -1,14 +1,15 @@
 package com.pasotaku.cats.core;
 
 import com.pasotaku.cardtype.CardTypes;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CatEngine {
 
-    //Keep track of player's hands.
-    //Keep track of deck
+    //Keep track of player's hands. DONE
+    //Keep track of deck.
     //Keep track of playedCards
     //Intiialize the Cats Deck
 
@@ -17,6 +18,7 @@ public class CatEngine {
     Deck deck;
     CardTypes currentCard;
     int numberOfPlayers;
+    List<String> players = new ArrayList<>();
 
     public void setNumberOfPlayers(int numberOfPlayers){
         this.numberOfPlayers = numberOfPlayers;
@@ -24,7 +26,34 @@ public class CatEngine {
 
     public void initializeDeck(){
         List<CardTypes> deckList = new ArrayList();
+        //Todo: Determine the number of cards we should put in here.
+        deck = new Deck(deckList);
+    }
 
+
+    public int getNumberOfCharacters(){
+        return this.numberOfPlayers;
+    }
+
+    public List<Hand> getPlayerHands(){
+        return this.playerHands;
+    }
+
+    public Hand getSpecifficPlayerHand(int number) {
+        if(number >= getPlayerHands().size()) {
+            return getPlayerHands().get(number);
+        }
+        return null; //Bad player number
+    }
+
+    public void addPlayer(String player) {
+        if(!StringUtils.isEmpty(player)) {
+            players.add(player);
+        }
+    }
+
+    public List<String> getPlayers() {
+        return this.players;
     }
 
 

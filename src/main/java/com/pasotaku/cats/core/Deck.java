@@ -11,6 +11,10 @@ public class Deck {
 
     Stack<CardTypes> deck = new Stack<>();
 
+    public Deck(){
+
+    }
+
     public Deck(List<CardTypes> deckOrder) {
         for(CardTypes card: deckOrder) {
             deck.push(card);
@@ -75,7 +79,7 @@ public class Deck {
         SecureRandom secureRandom = new SecureRandom();
         for(int i = 0;i <numberOfCards;i++ ) {
             int cardToGrab = secureRandom.nextInt(numberOfCards);
-            while(index.contains(cardToGrab)){
+            while(index.contains(cardToGrab)) {
                 cardToGrab = secureRandom.nextInt(numberOfCards);
             }
             CardTypes card = unsortedCards.get(cardToGrab);
@@ -84,10 +88,4 @@ public class Deck {
         }
         setDeck(updatedDeck);
     }
-
-    
-    //TODO: Implement shuffle
-    //TODO: Add a way to intiialize the deck
-    
-    
 }

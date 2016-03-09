@@ -5,28 +5,31 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
-public class CatEngine {
+public class CatGameEngine {
 
     //Keep track of player's hands. DONE
     //Keep track of deck.
     //Keep track of playedCards
     //Intiialize the Cats Deck
 
-
     List<Hand> playerHands = new ArrayList<>();
+    List<String> players = new ArrayList<>();
+
     Deck deck;
     CardTypes currentCard;
+    Stack<CardTypes> playedCards = new Stack<>();
     int numberOfPlayers;
-    List<String> players = new ArrayList<>();
+
 
     public void setNumberOfPlayers(int numberOfPlayers){
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public void initializeDeck(){
+    public void initializeDeck() {
         List<CardTypes> deckList = new ArrayList();
-        //Todo: Determine the number of cards we should put in here.
+        //TODO: Determine the number of cards we should put in here.
         deck = new Deck(deckList);
     }
 

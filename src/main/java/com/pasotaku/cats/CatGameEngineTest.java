@@ -1,7 +1,7 @@
 package com.pasotaku.cats;
 
 import com.pasotaku.cardtype.CardTypes;
-import com.pasotaku.cats.core.CatEngine;
+import com.pasotaku.cats.core.CatGameEngine;
 import com.pasotaku.cats.core.Deck;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
@@ -22,7 +22,7 @@ public class CatGameEngineTest {
 
     List<CardTypes> cardTypeList = new ArrayList<>();
     Deck deck;
-    CatEngine catEngine = new CatEngine();
+    CatGameEngine catGameEngine = new CatGameEngine();
 
     @Before
     public void setup() {
@@ -35,7 +35,7 @@ public class CatGameEngineTest {
 
     @Test
     public void uncatANOCATNOCard() {
-        assertThat(CardTypes.UNCAT, equalTo(catEngine.victor(CardTypes.CAT, CardTypes.UNCAT)));
+        assertThat(CardTypes.UNCAT, equalTo(catGameEngine.victor(CardTypes.CAT, CardTypes.UNCAT)));
     }
 
     @Test

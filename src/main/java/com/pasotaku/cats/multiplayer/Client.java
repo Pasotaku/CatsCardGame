@@ -1,42 +1,42 @@
 package com.pasotaku.cats.multiplayer;
 
-import com.pasotaku.mqtt.Message;
-import com.pasotaku.mqtt.MessageBroker;
+import com.pasotaku.mqtt.games.BaseClient;
 
-public class Client {
+import java.util.concurrent.TimeUnit;
 
-    private MessageBroker connection;
+public class Client extends BaseClient{
 
     public static void main (String[] args) {
-        Client testClient = new Client("myUser");
-        System.out.println(testClient.createGame());
-        testClient.disconnect();
-    }
+        try {
+            // Can use multiple clients
+            Client testClient = new Client("myUser");
+            Client secondClient = new Client("yourUser");
 
-    public Client(String user){
-        this.connection = new MessageBroker(user, true);
-    }
+            // Example Flow
+            testClient.createGame("my2");
+            testClient.startGame();
+            secondClient.createGame("your3");
+            secondClient.sendMessage("mine is great");
+            testClient.sendMessage("testing game send.");
+            testClient.sendMessage("/end");
+            testClient.joinGame("your3");
+            secondClient.startGame();
+            secondClient.sendMessage("yours is dumb");
+            testClient.sendMessage("maybe.");
+            testClient.sendMessage("/end");
 
-    public String listGames(){
-        return "";
-    }
-
-    public String createGame(){
-        this.connection.setRoom("lobby", false);
-        this.connection.send("create");
-        Message roomName = this.connection.recieve();
-        while (roomName.toString().equals("create")) {
-            roomName = this.connection.recieve();
+            // Cleanup
+            TimeUnit.SECONDS.sleep(5);
+            testClient.disconnect();
+            secondClient.shutdownServer();
+            secondClient.disconnect();
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
-        return roomName.getMqttMessage().toString();
     }
 
-    public void joinGame(){
-
-    }
-
-    public void disconnect(){
-        this.connection.disconnect();
+    private Client(String user){
+        super("tcp://rhitgaming.com:1883", user);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.pasotaku.mqtt;
+package com.pasotaku.mqtt.core;
 
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,26 +13,29 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MessageBroker {
 
-    public String state;
-    public String prevTopic;
+    private String state;
+    private String prevTopic;
     private String topic;
 
     private Callback callback;
     private MqttClient client;
     private String user;
     private String room;
+    private Boolean allRoomScope;
 
-    public MessageBroker(String user, boolean reset){
+    private final Boolean isClient;
+
+    public MessageBroker(String server, String user, boolean reset, boolean isClient){
+        this.isClient = isClient;
         // Default Values
         this.prevTopic = "";
         this.topic = "";
         // Set connection options
-        String server = "tcp://rhitgaming.com:1883";
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(reset);
         this.user = user;
         try {
-            options.setWill(this.user, "Lost Connection".getBytes("UTF-8"), 2, true);
+            options.setWill(this.user, "Lost Connection".getBytes("UTF-8"), 2, this.isClient);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -53,7 +56,11 @@ public class MessageBroker {
     public void setRoom(String room, boolean joinAll){
         String prefix = this.user;
         if (joinAll) {
+            this.allRoomScope = true;
             prefix = "+";
+        }
+        else {
+            this.allRoomScope = false;
         }
         if (!this.prevTopic.equals("")) {
             try {
@@ -64,13 +71,25 @@ public class MessageBroker {
         }
         this.callback.clear();
         this.prevTopic = this.topic;
-        this.topic = prefix + "/" + room;
+        if (!room.equals("")){
+            this.topic = prefix + "/" + room;
+        } else {
+            this.topic = prefix;
+        }
         this.room = room;
         try {
-            this.client.subscribe("+/" + room, 2);
+            this.client.subscribe(this.topic, 2);
         } catch (MqttException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getRoom(){
+        return this.room;
+    }
+
+    public Boolean getAllRoomScope(){
+        return this.allRoomScope;
     }
 
     public String getState(){
@@ -109,7 +128,7 @@ public class MessageBroker {
 
     private void checkIn(){
         try {
-            this.client.publish(this.user, "Logged In".getBytes("UTF-8"), 2, true);
+            this.client.publish(this.user, "Logged In".getBytes("UTF-8"), 2, this.isClient);
         } catch (MqttException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -117,7 +136,7 @@ public class MessageBroker {
 
     private void checkOut(){
         try {
-            this.client.publish(this.user, "Logged Out".getBytes("UTF-8"), 2, true);
+            this.client.publish(this.user, "Logged Out".getBytes("UTF-8"), 2, this.isClient);
         } catch (MqttException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -146,7 +165,7 @@ public class MessageBroker {
         @Override
         public void deliveryComplete(IMqttDeliveryToken token){}
 
-        public Message getMessage(){
+        Message getMessage(){
             Message newMessage = new Message();
             try {
                 newMessage = this.messageQueue.take();
@@ -156,11 +175,11 @@ public class MessageBroker {
             return newMessage;
         }
 
-        public boolean isValid() {
+        boolean isValid() {
             return this.valid;
         }
 
-        public void clear(){
+        void clear(){
             this.messageQueue.clear();
         }
 

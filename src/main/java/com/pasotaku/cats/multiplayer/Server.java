@@ -1,28 +1,17 @@
 package com.pasotaku.cats.multiplayer;
 
-import java.util.UUID;
+import com.pasotaku.mqtt.games.BaseServer;
 
-import com.pasotaku.mqtt.Message;
-import com.pasotaku.mqtt.MessageBroker;
-
-public class Server {
+public class Server extends BaseServer{
 
     // Entry-point
     public static void main (String[] args) {
-        MessageBroker connection = new MessageBroker("server", true);
-        Message currentMessage;
-        connection.setRoom("lobby", true);
-        while (connection.getState().equals("Connected")){
-            currentMessage = connection.recieve();
-            if (currentMessage.getMqttMessage().toString().equals("create")){
-                connection.send(UUID.randomUUID().toString(), currentMessage.getTopic(), false);
-            }
-        }
-
+        Server main_server = new Server("tcp://rhitgaming.com:1883", new GameMaster());
+        main_server.start();
+        System.out.println("End of main");
     }
 
-    public void createGame() {
-        // Create threaded instance of game logic
+    private Server(String serverAddress, GameMaster gameMaster){
+        super(serverAddress, "server", gameMaster, 1000);
     }
-
 }
